@@ -1,0 +1,175 @@
+<head>
+    <script src="main.js"></script>
+    <title>Sandwich / killer cage sudoku helper</title>
+</head>
+<style>
+    body {
+        font-size: 20px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        padding: 1em;
+        padding-top: 0;
+        display: flex;
+    }
+
+
+    @media (orientation: landscape) {
+        body {
+            flex-direction: row;
+        }
+    }
+
+    @media (orientation: portrait) {
+        body {
+            flex-direction: column;
+        }
+    }
+
+    .digit {
+        display: inline-block;
+        padding: 0.5em;
+        margin: 0.5em;
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    #results {
+        min-width: 30%;
+    }
+
+    .digit-list {
+        white-space: nowrap;
+    }
+
+    input[type=checkbox],
+    input[type=radio] {
+        display: none;
+    }
+
+    input[type=checkbox]+label,
+    input[type=radio]+label {
+        border: 1px solid grey;
+        background: ghostwhite;
+        padding: 0.5em;
+        cursor: pointer;
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        text-align: center;
+        margin-block: 0.1em;
+    }
+
+    input[type=checkbox]:not(:checked)+label:hover,
+    input[type=radio]:not(:checked)+label:hover {
+        box-shadow: 0px 1px 3px;
+    }
+
+    input[type=checkbox]+label:active,
+    input[type=radio]+label:active,
+    input[type=checkbox]:checked+label,
+    input[type=radio]:checked+label {
+        box-shadow: 0px 0px 3px inset;
+        background: #eee;
+    }
+
+    input[type=number] {
+        font-size: 100%;
+        padding: 0.5em;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <form id="form">
+        <section>
+            <h2>Group must include</h2>
+            <input name="include-must" type="checkbox" value="1" id="m1" /><label for="m1">1</label>
+            <input name="include-must" type="checkbox" value="2" id="m2" /><label for="m2">2</label>
+            <input name="include-must" type="checkbox" value="3" id="m3" /><label for="m3">3</label>
+            <input name="include-must" type="checkbox" value="4" id="m4" /><label for="m4">4</label>
+            <input name="include-must" type="checkbox" value="5" id="m5" /><label for="m5">5</label>
+            <input name="include-must" type="checkbox" value="6" id="m6" /><label for="m6">6</label>
+            <input name="include-must" type="checkbox" value="7" id="m7" /><label for="m7">7</label>
+            <input name="include-must" type="checkbox" value="8" id="m8" /><label for="m8">8</label>
+            <input name="include-must" type="checkbox" value="9" id="m9" /><label for="m9">9</label>
+
+        </section>
+
+        <section>
+            <h2>Group must not include</h2>
+            <p>(add boundary digits too, usually 1 and 9)</p>
+            <input name="include-must-not" type="checkbox" value="1" checked id="mn1" /><label for="mn1">1</label>
+            <input name="include-must-not" type="checkbox" value="2" id="mn2" /><label for="mn2">2</label>
+            <input name="include-must-not" type="checkbox" value="3" id="mn3" /><label for="mn3">3</label>
+            <input name="include-must-not" type="checkbox" value="4" id="mn4" /><label for="mn4">4</label>
+            <input name="include-must-not" type="checkbox" value="5" id="mn5" /><label for="mn5">5</label>
+            <input name="include-must-not" type="checkbox" value="6" id="mn6" /><label for="mn6">6</label>
+            <input name="include-must-not" type="checkbox" value="7" id="mn7" /><label for="mn7">7</label>
+            <input name="include-must-not" type="checkbox" value="8" id="mn8" /><label for="mn8">8</label>
+            <input name="include-must-not" type="checkbox" value="9" checked id="mn9" /><label for="mn9">9</label>
+        </section>
+        <section>
+            <h2>Sum</h2>
+            <p>
+                <input type="radio" name="sum" type="radio" value="5" id="s5" /><label for="s5">5</label>
+                <input type="radio" name="sum" type="radio" value="6" id="s6" /><label for="s6">6</label>
+                <input type="radio" name="sum" type="radio" value="7" id="s7" /><label for="s7">7</label>
+                <input type="radio" name="sum" type="radio" value="8" id="s8" /><label for="s8">8</label>
+                <input type="radio" name="sum" type="radio" value="9" id="s9" /><label for="s9">9</label>
+                <input type="radio" name="sum" type="radio" value="10" id="s10" /><label for="s10">10</label>
+                <input type="radio" name="sum" type="radio" value="11" id="s11" /><label for="s11">11</label>
+                <input type="radio" name="sum" type="radio" value="12" id="s12" /><label for="s12">12</label>
+                <input type="radio" name="sum" type="radio" value="13" id="s13" /><label for="s13">13</label>
+                <input type="radio" name="sum" type="radio" value="14" id="s14" /><label for="s14">14</label>
+                <input type="radio" name="sum" type="radio" value="15" id="s15" /><label for="s15">15</label>
+                <input type="radio" name="sum" type="radio" value="16" id="s16" /><label for="s16">16</label>
+                <input type="radio" name="sum" type="radio" value="17" id="s17" /><label for="s17">17</label>
+                <input type="radio" name="sum" type="radio" value="18" id="s18" /><label for="s18">18</label>
+                <input type="radio" name="sum" type="radio" value="19" id="s19" /><label for="s19">19</label>
+
+                <input type="radio" name="sum" type="radio" value="20" id="s20" /><label for="s20">20</label>
+                <input type="radio" name="sum" type="radio" value="21" id="s21" /><label for="s21">21</label>
+                <input type="radio" name="sum" type="radio" value="22" id="s22" /><label for="s22">22</label>
+                <input type="radio" name="sum" type="radio" value="23" id="s23" /><label for="s23">23</label>
+                <input type="radio" name="sum" type="radio" value="24" id="s24" /><label for="s24">24</label>
+                <input type="radio" name="sum" type="radio" value="25" id="s25" /><label for="s25">25</label>
+                <input type="radio" name="sum" type="radio" value="26" id="s26" /><label for="s26">26</label>
+                <input type="radio" name="sum" type="radio" value="27" id="s27" /><label for="s27">27</label>
+                <input type="radio" name="sum" type="radio" value="28" id="s28" /><label for="s28">28</label>
+                <input type="radio" name="sum" type="radio" value="29" id="s29" /><label for="s29">29</label>
+                <input type="radio" name="sum" type="radio" value="30" id="s30" /><label for="s30">30</label>
+                <input type="radio" name="sum" type="radio" value="31" id="s31" /><label for="s31">31</label>
+                <input type="radio" name="sum" type="radio" value="32" id="s32" /><label for="s32">32</label>
+                <input type="radio" name="sum" type="radio" value="33" id="s33" /><label for="s33">33</label>
+                <input type="radio" name="sum" type="radio" value="34" id="s34" /><label for="s34">34</label>
+                <input type="radio" name="sum" type="radio" value="35" id="s35" /><label for="s35">35</label>
+                <input type="radio" name="sum" type="radio" value="36" id="s36" /><label for="s36">36</label>
+                <input type="radio" name="sum" type="radio" value="37" id="s37" /><label for="s37">37</label>
+                <input type="radio" name="sum" type="radio" value="38" id="s38" /><label for="s38">38</label>
+                <input type="radio" name="sum" type="radio" value="39" id="s39" /><label for="s39">39</label>
+                <input type="radio" name="sum" type="radio" value="40" id="s40" /><label for="s40">40</label>
+                <input type="radio" name="sum" type="radio" value="41" id="s41" /><label for="s41">41</label>
+                <input type="radio" name="sum" type="radio" value="42" id="s42" /><label for="s42">42</label>
+                <input type="radio" name="sum" type="radio" value="43" id="s43" /><label for="s43">43</label>
+            </p>
+            <p>Group length: 
+                <input name="valid-length" type="checkbox" value="2" id="l2" checked /><label for="l2">2</label>
+                <input name="valid-length" type="checkbox" value="3" id="l3" checked /><label for="l3">3</label>
+                <input name="valid-length" type="checkbox" value="4" id="l4" checked /><label for="l4">4</label>
+                <input name="valid-length" type="checkbox" value="5" id="l5" checked /><label for="l5">5</label>
+                <input name="valid-length" type="checkbox" value="6" id="l6" checked /><label for="l6">6</label>
+                <input name="valid-length" type="checkbox" value="7" id="l7" checked /><label for="l7">7</label>
+                <input name="valid-length" type="checkbox" value="8" id="l8" checked /><label for="l8">8</label>
+            </p>
+            </section>
+    </form>
+    <div id="results">
+    </div>
+
+    <template id="digit-tpl"><span class="digit"></span></template>
+
+    <template id="combination-tpl">
+        <div class="digit-list"></div>
+    </template>
+</body>
